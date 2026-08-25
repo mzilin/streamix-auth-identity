@@ -13,8 +13,6 @@ public final class IdentityUtils {
 
     public static final String PRODUCTION_ENV = "production";
 
-    public static final String TIMESTAMP_FORMAT = "yyyy-MM-dd hh:mm:ss";
-
     public static final String ACCESS_TOKEN_NAME = "vsp_access";
 
     public static final String REFRESH_TOKEN_NAME = "vsp_refresh";

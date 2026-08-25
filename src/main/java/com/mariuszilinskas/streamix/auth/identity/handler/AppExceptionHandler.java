@@ -1,8 +1,8 @@
 package com.mariuszilinskas.streamix.auth.identity.handler;
 
 
-import com.mariuszilinskas.streamix.auth.identity.dto.ErrorResponse;
-import com.mariuszilinskas.streamix.auth.identity.dto.FieldErrorResponse;
+import com.mariuszilinskas.streamix.web.response.error.ErrorResponse;
+import com.mariuszilinskas.streamix.web.response.error.FieldErrorResponse;
 import com.mariuszilinskas.streamix.auth.identity.exception.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

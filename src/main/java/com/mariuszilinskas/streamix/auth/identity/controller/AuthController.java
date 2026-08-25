@@ -37,29 +37,4 @@ public class AuthController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    /**
-     * POST /auth/token : Refreshes authentication tokens.
-     */
-    @PostMapping("/token")
-    public ResponseEntity<Void> refreshTokens(
-            @NonNull HttpServletRequest request,
-            @NonNull HttpServletResponse response
-    ) {
-        authService.refreshTokens(request, response);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-
-    /**
-     * POST /auth/logout/{userId} : Logs out a user.
-     */
-    @PostMapping("/logout/{userId}")
-    public ResponseEntity<Void> logoutUser(
-            @PathVariable UUID userId,
-            @NonNull HttpServletRequest request,
-            @NonNull HttpServletResponse response
-    ) {
-        authService.logoutUser(request, response, userId);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-
 }

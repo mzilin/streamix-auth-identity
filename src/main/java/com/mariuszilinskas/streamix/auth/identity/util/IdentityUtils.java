@@ -5,7 +5,7 @@ import com.mariuszilinskas.streamix.auth.identity.exception.UserStatusAccessExce
 
 import java.util.EnumSet;
 
-public abstract class IdentityUtils {
+public final class IdentityUtils {
 
     private IdentityUtils() {
         // Private constructor to prevent instantiation

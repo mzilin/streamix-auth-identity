@@ -84,10 +84,6 @@ management:
       export:
         url: ${OTEL_METRICS_ENDPOINT}
 
-app:
-  accessTokenSecret: ${ACCESS_TOKEN_SECRET}
-  refreshTokenSecret: ${REFRESH_TOKEN_SECRET}
-
 # Logging properties
 logging:
   level:

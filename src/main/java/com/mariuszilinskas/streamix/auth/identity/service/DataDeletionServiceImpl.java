@@ -21,7 +21,6 @@ public class DataDeletionServiceImpl implements DataDeletionService {
     private final PasscodeService passcodeService;
     private final PasswordService passwordService;
     private final ResetTokenService resetTokenService;
-    private final RefreshTokenService refreshTokenService;
 
     @Override
     @Transactional
@@ -31,7 +30,6 @@ public class DataDeletionServiceImpl implements DataDeletionService {
         passcodeService.deleteUserPasscodes(userId);
         passwordService.deleteUserPasswords(userId);
         resetTokenService.deleteUserResetTokens(userId);
-        refreshTokenService.deleteUserRefreshTokens(userId);
     }
 
 }

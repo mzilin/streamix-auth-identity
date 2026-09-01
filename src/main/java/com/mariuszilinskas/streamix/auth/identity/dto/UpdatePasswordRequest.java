@@ -4,19 +4,20 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
+import static com.mariuszilinskas.streamix.web.constant.ValidationMessages.*;
+
 public record UpdatePasswordRequest (
 
-        @NotBlank(message = "currentPassword cannot be blank")
+        @NotBlank(message = "currentPassword" + CANNOT_BE_BLANK)
         String currentPassword,
 
-        @NotBlank(message = "newPassword cannot be blank")
-        @Size(min = 8, max = 20, message = "newPassword must be between 8 and 20 characters")
+        @NotBlank(message = "newPassword" + CANNOT_BE_BLANK)
+        @Size(min = 8, max = 64, message = PASSWORD_INCORRECT_LENGTH)
         @Pattern.List({
-                @Pattern(regexp = ".*[a-z].*", message = "newPassword must contain at least one lowercase letter"),
-                @Pattern(regexp = ".*[A-Z].*", message = "newPassword must contain at least one uppercase letter"),
-                @Pattern(regexp = ".*\\d.*", message = "newPassword must contain at least one digit"),
-                @Pattern(regexp = ".*[!@#$%^&*(),.?\":{}|<>].*",
-                        message = "newPassword must contain at least one special character")
+                @Pattern(regexp = ".*[a-z].*", message = PASSWORD_MISSING_LOWERCASE),
+                @Pattern(regexp = ".*[A-Z].*", message = PASSWORD_MISSING_UPPERCASE),
+                @Pattern(regexp = ".*\\d.*", message = PASSWORD_MISSING_DIGIT),
+                @Pattern(regexp = ".*[!@#$%^&*(),.?\":{}|<>].*", message = PASSWORD_MISSING_SPECIAL)
         })
         String newPassword
 

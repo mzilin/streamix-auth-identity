@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
-@FeignClient("users")
+@FeignClient("users-account")
 public interface UserFeignClient {
 
     @GetMapping(value = "/user/auth-details/by-email", consumes = "application/json")

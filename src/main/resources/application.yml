@@ -18,7 +18,7 @@ spring:
   config:
     import:
       - optional:configserver:discovery://config-server
-      - optional:file:./env.properties
+      - optional:file:../env/dev.properties
   datasource:
     url: ${DB_URL}
     driverClassName: ${DB_DRIVER_CLASS}

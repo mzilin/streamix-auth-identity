@@ -7,7 +7,7 @@ import static com.mariuszilinskas.streamix.web.constant.ValidationMessages.CANNO
 
 public record VerifyPasscodeRequest(
 
-        @NotBlank(message = "passcode" + CANNOT_BE_BLANK)
+        @NotBlank(message = "passcode " + CANNOT_BE_BLANK)
         @Size(min = 6, max = 6, message = "passcode must be 6 characters")
         String passcode
 

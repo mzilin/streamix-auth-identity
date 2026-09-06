@@ -9,10 +9,10 @@ import java.util.UUID;
 
 public record VerifyPasswordRequest(
 
-        @NotNull(message = "userId" + CANNOT_BE_NULL)
+        @NotNull(message = "userId " + CANNOT_BE_NULL)
         UUID userId,
 
-        @NotBlank(message = "password" + CANNOT_BE_BLANK)
+        @NotBlank(message = "password " + CANNOT_BE_BLANK)
         String password
 
 ) {}

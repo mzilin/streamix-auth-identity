@@ -7,7 +7,7 @@ import static com.mariuszilinskas.streamix.web.constant.ValidationMessages.*;
 
 public record ForgotPasswordRequest(
 
-        @NotBlank(message = "email" + CANNOT_BE_BLANK)
+        @NotBlank(message = "email " + CANNOT_BE_BLANK)
         @Email(message = INVALID_EMAIL)
         String email
 

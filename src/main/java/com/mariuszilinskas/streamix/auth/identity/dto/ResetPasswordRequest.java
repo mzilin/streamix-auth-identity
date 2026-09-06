@@ -8,7 +8,7 @@ import static com.mariuszilinskas.streamix.web.constant.ValidationMessages.*;
 
 public record ResetPasswordRequest(
 
-        @NotBlank(message = "password" + CANNOT_BE_BLANK)
+        @NotBlank(message = "password " + CANNOT_BE_BLANK)
         @Size(min = 8, max = 64, message = PASSWORD_INCORRECT_LENGTH)
         @Pattern.List({
                 @Pattern(regexp = ".*[a-z].*", message = PASSWORD_MISSING_LOWERCASE),
@@ -18,7 +18,7 @@ public record ResetPasswordRequest(
         })
         String password,
 
-        @NotBlank(message = "resetToken" + CANNOT_BE_BLANK)
+        @NotBlank(message = "resetToken " + CANNOT_BE_BLANK)
         String resetToken
 
 ) {}

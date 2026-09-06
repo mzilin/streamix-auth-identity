@@ -8,10 +8,10 @@ import static com.mariuszilinskas.streamix.web.constant.ValidationMessages.*;
 
 public record UpdatePasswordRequest (
 
-        @NotBlank(message = "currentPassword" + CANNOT_BE_BLANK)
+        @NotBlank(message = "currentPassword " + CANNOT_BE_BLANK)
         String currentPassword,
 
-        @NotBlank(message = "newPassword" + CANNOT_BE_BLANK)
+        @NotBlank(message = "newPassword " + CANNOT_BE_BLANK)
         @Size(min = 8, max = 64, message = PASSWORD_INCORRECT_LENGTH)
         @Pattern.List({
                 @Pattern(regexp = ".*[a-z].*", message = PASSWORD_MISSING_LOWERCASE),

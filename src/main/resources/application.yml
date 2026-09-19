@@ -2,14 +2,14 @@
 server:
   port: 8100
 
-# Information for the info endpoint
+# Application metadata
 info:
   app:
     environment: DEV
     name: ${spring.application.name}
     description: Identity Service - Local Instance
 
-# Spring application properties
+# Spring properties
 spring:
   application:
     name: auth-identity
@@ -28,13 +28,20 @@ spring:
     database-platform: ${DB_DIALECT}
     hibernate:
       ddl-auto: update
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        "[spring.json.add.type.headers]": false
   rabbitmq:
     host: ${RMQ_HOST}
     port: ${RMQ_PORT}
     username: ${RMQ_USERNAME}
     password: ${RMQ_PASSWORD}
 
-# Eureka configuration
+# Service discovery properties
 eureka:
   client:
     fetchRegistry: true
@@ -44,21 +51,36 @@ eureka:
   instance:
     preferIpAddress: true
 
-# RabbitMQ settings
+# Messaging properties
+kafka:
+  topics:
+    user-registered: ${KAFKA_USER_REGISTERED_TOPIC}
+  consumer:
+    auto-offset-reset: earliest
+    groups:
+      identity-registration: ${KAFKA_IDENTITY_REGISTRATION_GROUP}
+  dlt:
+    suffix: .dlt
+    partitions: 6
+    replication-factor: 1
+    retention: 7d
+
 rabbitmq:
   exchange: ${RMQ_EXCHANGE}
   queues:
-    create-credentials: ${RMQ_CREATE_CREDENTIALS_Q}
     reset-passcode: ${RMQ_RESET_PASSCODE_Q}
     delete-user-data: ${RMQ_DELETE_USER_DATA_Q}
   routing-keys:
     platform-emails: ${RMQ_PLATFORM_EMAILS_RK}
-    verify-account: ${RMQ_VERIFY_ACCOUNT_RK}
-    create-credentials: ${RMQ_CREATE_CREDENTIALS_RK}
     reset-passcode: ${RMQ_RESET_PASSCODE_RK}
     delete-user-data: ${RMQ_DELETE_USER_DATA_RK}
 
-# Management properties
+# Security properties
+cryptography:
+  provider: local
+  encryption-key: ${CRYPTOGRAPHY_ENCRYPTION_KEY}
+
+# Management and observability properties
 management:
   info:
     env:

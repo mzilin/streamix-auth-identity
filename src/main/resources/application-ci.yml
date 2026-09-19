@@ -1,4 +1,4 @@
-# Spring application properties for CI
+# Spring configuration for CI
 spring:
   datasource:
     url: jdbc:h2:mem:testdb
@@ -9,19 +9,42 @@ spring:
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
       ddl-auto: update
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        "[spring.json.add.type.headers]": false
   rabbitmq:
     host: localhost
     port: 5672
     username: guest
     password: guest
 
-# Eureka configuration for CI
+# Service discovery configuration for CI
 eureka:
   client:
     fetchRegistry: false
     registerWithEureka: false
 
-# Management configuration for CI
+# Messaging configuration for CI
+rabbitmq:
+  exchange: dummy-exchange
+  queues:
+    reset-passcode: dummy-queue
+    delete-user-data: dummy-queue
+  routing-keys:
+    platform-emails: dummy-key
+    reset-passcode: dummy-key
+    delete-user-data: dummy-key
+
+# Security configuration for CI
+cryptography:
+  provider: local
+  encryption-key: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
+
+# Observability configuration for CI
 management:
   opentelemetry:
     tracing:
@@ -32,21 +55,3 @@ management:
     metrics:
       export:
         url: http://localhost:4318/v1/metrics
-
-# RabbitMQ settings for CI
-rabbitmq:
-  exchange: dummy-exchange
-  queues:
-    create-credentials: dummy-queue
-    reset-passcode: dummy-queue
-    delete-user-data: dummy-queue
-  routing-keys:
-    platform-emails: dummy-key
-    verify-account: dummy-key
-    create-credentials: dummy-key
-    reset-passcode: dummy-key
-    delete-user-data: dummy-key
-
-app:
-  accessTokenSecret: dummy-secret
-  refreshTokenSecret: dummy-secret

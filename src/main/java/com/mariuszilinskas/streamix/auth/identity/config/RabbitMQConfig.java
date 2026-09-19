@@ -1,77 +1,62 @@
 package com.mariuszilinskas.streamix.auth.identity.config;
 
+import com.mariuszilinskas.streamix.auth.identity.properties.RabbitMQProperties;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.JacksonJsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConverter;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class RabbitMQConfig {
 
-    @Value("${rabbitmq.exchange}")
-    private String exchange;
+    private final RabbitMQProperties props;
 
-    @Value("${rabbitmq.queues.create-credentials}")
-    private String createCredentialsQueue;
-
-    @Value("${rabbitmq.routing-keys.create-credentials}")
-    private String createCredentialsRoutingKey;
-
-    @Value("${rabbitmq.queues.reset-passcode}")
-    private String resetPasscodeQueue;
-
-    @Value("${rabbitmq.routing-keys.reset-passcode}")
-    private String resetPasscodeRoutingKey;
-
-    @Value("${rabbitmq.queues.delete-user-data}")
-    private String deleteUserDataQueue;
-
-    @Value("${rabbitmq.routing-keys.delete-user-data}")
-    private String deleteUserDataRoutingKey;
+    public RabbitMQConfig(RabbitMQProperties props) {
+        this.props = props;
+    }
 
     @Bean
     public DirectExchange exchange() {
-        return new DirectExchange(exchange);
+        return new DirectExchange(props.exchange());
     }
 
     @Bean
     public Queue createCredentialsQueue() {
-        return new Queue(createCredentialsQueue, true);
+        return new Queue(props.queues().createCredentials(), true);
     }
 
     @Bean
     public Binding createCredentialsBinding() {
         return BindingBuilder.bind(createCredentialsQueue())
                 .to(exchange())
-                .with(createCredentialsRoutingKey);
+                .with(props.routingKeys().createCredentials());
     }
 
     @Bean
     public Queue resetPasscodeQueue() {
-        return new Queue(resetPasscodeQueue, true);
+        return new Queue(props.queues().resetPasscode(), true);
     }
 
     @Bean
     public Binding resetPasscodeBinding() {
         return BindingBuilder.bind(resetPasscodeQueue())
                 .to(exchange())
-                .with(resetPasscodeRoutingKey);
+                .with(props.routingKeys().resetPasscode());
     }
 
     @Bean
     public Queue deleteUserDataQueue() {
-        return new Queue(deleteUserDataQueue, true);
+        return new Queue(props.queues().deleteUserData(), true);
     }
 
     @Bean
     public Binding deleteUserDataBinding() {
         return BindingBuilder.bind(deleteUserDataQueue())
                 .to(exchange())
-                .with(deleteUserDataRoutingKey);
+                .with(props.routingKeys().deleteUserData());
     }
 
     @Bean
@@ -87,4 +72,3 @@ public class RabbitMQConfig {
     }
 
 }
-

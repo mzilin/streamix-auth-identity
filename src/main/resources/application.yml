@@ -63,7 +63,6 @@ eureka:
 kafka:
   topics:
     user-registered: ${KAFKA_USER_REGISTERED_TOPIC}
-    user-registered-dlt: ${KAFKA_USER_REGISTERED_DLT_TOPIC}
   groups:
     identity-registration: ${KAFKA_IDENTITY_REGISTRATION_GROUP}
 

@@ -1,6 +1,7 @@
 package com.mariuszilinskas.streamix.auth.identity.config;
 
 import com.mariuszilinskas.streamix.auth.identity.properties.RabbitMQProperties;
+import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -10,13 +11,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
+@RequiredArgsConstructor
 public class RabbitMQConfig {
 
     private final RabbitMQProperties rabbitMQProperties;
-
-    public RabbitMQConfig(RabbitMQProperties props) {
-        this.rabbitMQProperties = props;
-    }
 
     @Bean
     public DirectExchange exchange() {

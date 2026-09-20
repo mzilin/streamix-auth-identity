@@ -12,51 +12,51 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitMQConfig {
 
-    private final RabbitMQProperties props;
+    private final RabbitMQProperties rabbitMQProperties;
 
     public RabbitMQConfig(RabbitMQProperties props) {
-        this.props = props;
+        this.rabbitMQProperties = props;
     }
 
     @Bean
     public DirectExchange exchange() {
-        return new DirectExchange(props.exchange());
+        return new DirectExchange(rabbitMQProperties.exchange());
     }
 
     @Bean
     public Queue createCredentialsQueue() {
-        return new Queue(props.queues().createCredentials(), true);
+        return new Queue(rabbitMQProperties.queues().createCredentials(), true);
     }
 
     @Bean
     public Binding createCredentialsBinding() {
         return BindingBuilder.bind(createCredentialsQueue())
                 .to(exchange())
-                .with(props.routingKeys().createCredentials());
+                .with(rabbitMQProperties.routingKeys().createCredentials());
     }
 
     @Bean
     public Queue resetPasscodeQueue() {
-        return new Queue(props.queues().resetPasscode(), true);
+        return new Queue(rabbitMQProperties.queues().resetPasscode(), true);
     }
 
     @Bean
     public Binding resetPasscodeBinding() {
         return BindingBuilder.bind(resetPasscodeQueue())
                 .to(exchange())
-                .with(props.routingKeys().resetPasscode());
+                .with(rabbitMQProperties.routingKeys().resetPasscode());
     }
 
     @Bean
     public Queue deleteUserDataQueue() {
-        return new Queue(props.queues().deleteUserData(), true);
+        return new Queue(rabbitMQProperties.queues().deleteUserData(), true);
     }
 
     @Bean
     public Binding deleteUserDataBinding() {
         return BindingBuilder.bind(deleteUserDataQueue())
                 .to(exchange())
-                .with(props.routingKeys().deleteUserData());
+                .with(rabbitMQProperties.routingKeys().deleteUserData());
     }
 
     @Bean

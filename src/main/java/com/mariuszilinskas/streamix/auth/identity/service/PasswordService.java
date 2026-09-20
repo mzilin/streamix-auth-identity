@@ -6,7 +6,7 @@ import java.util.UUID;
 
 public interface PasswordService {
 
-    void createNewPassword(CredentialsRequest request);
+    void setupPassword(SetupCredentialsRequest request);
 
     void verifyPassword(VerifyPasswordRequest request);
 

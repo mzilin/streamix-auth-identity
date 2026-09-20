@@ -10,14 +10,12 @@ public record RabbitMQProperties(
 ) {
 
     public record Queues(
-            String createCredentials,
             String resetPasscode,
             String deleteUserData
     ) {}
 
     public record RoutingKeys(
             String verifyAccount,
-            String createCredentials,
             String platformEmails,
             String resetPasscode,
             String deleteUserData

@@ -54,17 +54,9 @@ eureka:
 # Messaging properties
 kafka:
   topics:
-    user-registered:
-      name: ${KAFKA_USER_REGISTERED_TOPIC}
-      dlt:
-        name: ${KAFKA_USER_REGISTERED_DLT_TOPIC}
-        partitions: 1
-        replication-factor: 1
-        retention: 1d
-  consumer:
-    auto-offset-reset: earliest
-    groups:
-      identity-registration: ${KAFKA_IDENTITY_REGISTRATION_GROUP}
+    user-registered: ${KAFKA_USER_REGISTERED_TOPIC}
+  groups:
+    identity-registration: ${KAFKA_IDENTITY_REGISTRATION_GROUP}
 
 rabbitmq:
   exchange: ${RMQ_EXCHANGE}

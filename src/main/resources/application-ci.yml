@@ -31,17 +31,9 @@ eureka:
 # Messaging configuration for CI
 kafka:
   topics:
-    user-registered:
-      name: dummy-topic
-      dlt:
-        name: dummy-topic-dlt
-        partitions: 1
-        replication-factor: 1
-        retention: 1d
-  consumer:
-    auto-offset-reset: earliest
-    groups:
-      identity-registration: dummy-group
+    user-registered: dummy-topic
+  groups:
+    identity-registration: dummy-group
 
 rabbitmq:
   exchange: dummy-exchange

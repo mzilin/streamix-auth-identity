@@ -1,63 +1,35 @@
-# Spring configuration for CI
+# CI application and infrastructure configuration
 spring:
   datasource:
     url: jdbc:h2:mem:testdb
-    driverClassName: org.h2.Driver
+    driver-class-name: org.h2.Driver
     username: sa
     password:
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
   kafka:
-    bootstrap-servers: localhost:9092
-    producer:
-      key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
-      properties:
-        "[spring.json.add.type.headers]": false
-  rabbitmq:
-    host: localhost
-    port: 5672
-    username: guest
-    password: guest
+    listener:
+      auto-startup: false
 
-# Service discovery configuration for CI
+# CI service discovery configuration
 eureka:
   client:
-    fetchRegistry: false
-    registerWithEureka: false
+    fetch-registry: false
+    register-with-eureka: false
 
-# Messaging configuration for CI
-kafka:
-  topics:
-    user-registered: dummy-topic
-  groups:
-    identity-registration: dummy-group
-
-rabbitmq:
-  exchange: dummy-exchange
-  queues:
-    reset-passcode: dummy-queue
-    delete-user-data: dummy-queue
-  routing-keys:
-    platform-emails: dummy-key
-    reset-passcode: dummy-key
-    delete-user-data: dummy-key
-
-# Security configuration for CI
+# CI security configuration
 cryptography:
   provider: local
   encryption-key: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
 
-# Observability configuration for CI
+# CI observability configuration
 management:
-  opentelemetry:
-    tracing:
-      export:
-        otlp:
-          endpoint: http://localhost:4318/v1/traces
+  tracing:
+    export:
+      enabled: false
   otlp:
     metrics:
       export:
-        url: http://localhost:4318/v1/metrics
+        enabled: false

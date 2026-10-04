@@ -11,7 +11,7 @@ public final class IdentityUtils {
         // Private constructor to prevent instantiation
     }
 
-    public static final String PRODUCTION_ENV = "production";
+    public static final String PRODUCTION_ENV = "prod";
 
     public static final String ACCESS_TOKEN_NAME = "vsp_access";
 

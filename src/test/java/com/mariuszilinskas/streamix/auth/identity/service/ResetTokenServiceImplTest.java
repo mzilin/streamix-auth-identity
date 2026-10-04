@@ -4,7 +4,7 @@ import com.mariuszilinskas.streamix.auth.identity.exception.ResourceNotFoundExce
 import com.mariuszilinskas.streamix.auth.identity.model.ResetToken;
 import com.mariuszilinskas.streamix.auth.identity.repository.ResetTokenRepository;
 import com.mariuszilinskas.streamix.auth.identity.util.IdentityUtils;
-import org.apache.commons.lang.RandomStringUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -35,7 +35,7 @@ public class ResetTokenServiceImplTest {
 
     private final UUID userId = UUID.randomUUID();
     private final ResetToken resetToken = new ResetToken(userId);
-    private final String token = RandomStringUtils.randomAlphanumeric(20);
+    private final String token = RandomStringUtils.secure().nextAlphanumeric(20);
 
     // ------------------------------------
 

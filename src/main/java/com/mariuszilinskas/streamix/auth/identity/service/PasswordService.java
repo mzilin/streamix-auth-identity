@@ -8,6 +8,8 @@ public interface PasswordService {
 
     void createNewPassword(CredentialsRequest request);
 
+    void setupPassword(SetupCredentialsRequest request);
+
     void verifyPassword(VerifyPasswordRequest request);
 
     void forgotPassword(ForgotPasswordRequest request);

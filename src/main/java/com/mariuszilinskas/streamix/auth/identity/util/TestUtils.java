@@ -7,7 +7,7 @@ import feign.RequestTemplate;
 import java.util.Collections;
 import java.util.UUID;
 
-public abstract class TestUtils {
+public final class TestUtils {
 
     private TestUtils() {
         // Private constructor to prevent instantiation

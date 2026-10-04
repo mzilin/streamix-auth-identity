@@ -1,7 +1,7 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '3.4.5'
-    id 'io.spring.dependency-management' version '1.1.4'
+    id 'org.springframework.boot' version '4.1.0'
+    id 'io.spring.dependency-management' version '1.1.7'
     id 'jacoco'
 }
 
@@ -20,54 +20,66 @@ configurations {
 }
 
 repositories {
+    mavenLocal()
     mavenCentral()
+    maven {
+        url = uri('https://maven.pkg.github.com/mzilin/streamix-platform-libs')
+        credentials {
+            username = project.findProperty('gpr.user') ?: System.getenv('GITHUB_ACTOR')
+            password = project.findProperty('gpr.key') ?: System.getenv('GITHUB_TOKEN')
+        }
+    }
 }
 
 ext {
-    set('springCloudVersion', "2024.0.0")
+    set('springCloudVersion', "2025.1.2")
 }
 
 dependencies {
     // Core Spring Boot
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
-    implementation 'org.springframework.boot:spring-boot-starter-amqp'
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-opentelemetry'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
-    // Spring Cloud-related
+    // Spring Cloud
     implementation 'org.springframework.cloud:spring-cloud-starter-config'
     implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+    implementation 'io.github.openfeign:feign-jackson'
 
-    // Database-related
+    // Data & Persistence
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.flywaydb:flyway-core:9.22.3'
     runtimeOnly 'org.postgresql:postgresql'
     runtimeOnly 'com.h2database:h2'
-    testImplementation 'com.h2database:h2'
 
-    // Security
+    // Messaging & Events
+    implementation 'org.springframework.boot:spring-boot-starter-amqp'
+    implementation 'org.springframework.boot:spring-boot-starter-kafka'
+
+    // Streamix Platform
+    implementation 'com.mariuszilinskas.streamix:streamix-cryptography:1.0.1'
+    implementation 'com.mariuszilinskas.streamix:streamix-data-masking:1.0.1'
+    implementation 'com.mariuszilinskas.streamix:streamix-observability:1.0.1'
+    implementation 'com.mariuszilinskas.streamix:streamix-web-commons:1.0.1'
+
+    // Tooling
     implementation 'org.springframework.security:spring-security-crypto:6.4.4'
-
-    // JSON Web Token
     implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
     runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
-
-    // Other dependencies
     implementation 'org.jetbrains:annotations:24.0.1'
-    implementation 'io.github.openfeign:feign-jackson'
-
-    // Lombok
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
-
-    // Development only
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
     // Testing
+    testImplementation 'com.h2database:h2'
     testImplementation 'org.mockito:mockito-core:5.3.1'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.kafka:spring-kafka-test'
 }
 
 dependencyManagement {
@@ -85,7 +97,8 @@ compileTestJava {
 }
 
 test {
-    useJUnitPlatform()
+	useJUnitPlatform()
+	systemProperty "spring.profiles.active", System.getenv("SPRING_PROFILES_ACTIVE") ?: ""
     testLogging {
         events "passed", "skipped", "failed"
     }

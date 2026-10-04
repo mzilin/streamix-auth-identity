@@ -22,9 +22,6 @@ public class DataDeletionServiceImplTest {
     @Mock
     private ResetTokenService resetTokenService;
 
-    @Mock
-    private RefreshTokenService refreshTokenService;
-
     @InjectMocks
     private DataDeletionServiceImpl userAuthDataService;
 
@@ -38,7 +35,6 @@ public class DataDeletionServiceImplTest {
         doNothing().when(passcodeService).deleteUserPasscodes(userId);
         doNothing().when(passwordService).deleteUserPasswords(userId);
         doNothing().when(resetTokenService).deleteUserResetTokens(userId);
-        doNothing().when(refreshTokenService).deleteUserRefreshTokens(userId);
 
         // Act
         userAuthDataService.deleteUserAuthData(userId);
@@ -47,7 +43,6 @@ public class DataDeletionServiceImplTest {
         verify(passcodeService, times(1)).deleteUserPasscodes(userId);
         verify(passwordService, times(1)).deleteUserPasswords(userId);
         verify(resetTokenService, times(1)).deleteUserResetTokens(userId);
-        verify(refreshTokenService, times(1)).deleteUserRefreshTokens(userId);
     }
 
 }

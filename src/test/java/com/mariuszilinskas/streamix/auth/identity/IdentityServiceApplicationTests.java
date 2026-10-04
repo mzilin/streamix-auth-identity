@@ -11,7 +11,6 @@ import com.mariuszilinskas.streamix.auth.identity.controller.DataDeletionControl
 import com.mariuszilinskas.streamix.auth.identity.producer.RabbitMQProducer;
 import com.mariuszilinskas.streamix.auth.identity.repository.PasscodeRepository;
 import com.mariuszilinskas.streamix.auth.identity.repository.PasswordRepository;
-import com.mariuszilinskas.streamix.auth.identity.repository.RefreshTokenRepository;
 import com.mariuszilinskas.streamix.auth.identity.repository.ResetTokenRepository;
 import com.mariuszilinskas.streamix.auth.identity.service.*;
 import org.junit.jupiter.api.Test;
@@ -45,9 +44,6 @@ class IdentityServiceApplicationTests {
     private PasswordServiceImpl passwordService;
 
     @Autowired
-    private RefreshTokenServiceImpl refreshTokenService;
-
-    @Autowired
     private ResetTokenServiceImpl resetTokenService;
 
     @Autowired
@@ -63,9 +59,6 @@ class IdentityServiceApplicationTests {
 
     @Autowired
     private PasswordRepository passwordRepository;
-
-    @Autowired
-    private RefreshTokenRepository refreshTokenRepository;
 
     @Autowired
     private ResetTokenRepository resetTokenRepository;
@@ -138,11 +131,6 @@ class IdentityServiceApplicationTests {
     }
 
     @Test
-    void refreshTokenServiceBeanLoads() {
-        assertNotNull(refreshTokenService, "Refresh Token Service should have been auto-wired by Spring Context");
-    }
-
-    @Test
     void resetTokenServiceBeanLoads() {
         assertNotNull(resetTokenService, "Reset Token Service should have been auto-wired by Spring Context");
     }
@@ -167,11 +155,6 @@ class IdentityServiceApplicationTests {
     @Test
     void passwordRepositoryBeanLoads() {
         assertNotNull(passwordRepository, "Password Repository should have been auto-wired by Spring Context");
-    }
-
-    @Test
-    void refreshTokenRepositoryBeanLoads() {
-        assertNotNull(refreshTokenRepository, "Refresh Token Repository should have been auto-wired by Spring Context");
     }
 
     @Test

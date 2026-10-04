@@ -12,7 +12,7 @@ import com.mariuszilinskas.streamix.auth.identity.repository.PasswordRepository;
 import com.mariuszilinskas.streamix.auth.identity.util.IdentityUtils;
 import com.mariuszilinskas.streamix.auth.identity.util.TestUtils;
 import feign.FeignException;
-import org.apache.commons.lang.RandomStringUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

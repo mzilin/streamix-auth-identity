@@ -5,18 +5,20 @@ import jakarta.validation.constraints.NotNull;
 
 import java.util.UUID;
 
+import static com.mariuszilinskas.streamix.web.constant.ValidationMessages.*;
+
 public record CredentialsRequest(
 
-        @NotNull(message = "userId cannot be null")
+        @NotNull(message = "userId " + CANNOT_BE_NULL)
         UUID userId,
 
-        @NotBlank(message = "firstName cannot be blank")
+        @NotBlank(message = "firstName " + CANNOT_BE_BLANK)
         String firstName,
 
-        @NotBlank(message = "email cannot be blank")
+        @NotBlank(message = "email " + CANNOT_BE_BLANK)
         String email,
 
-        @NotBlank(message = "password cannot be blank")
+        @NotBlank(message = "password " + CANNOT_BE_BLANK)
         String password
 
 ) {}

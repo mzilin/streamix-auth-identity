@@ -1,64 +1,82 @@
-# Server properties
-server:
-  port: 8100
-
-# Information for the info endpoint
+# Application metadata
 info:
   app:
-    environment: DEV
+    environment: ${spring.profiles.active}
     name: ${spring.application.name}
-    description: Identity Service - Local Instance
+    description: Streamix Identity Service
 
-# Spring application properties
+# Spring application and infrastructure configuration
 spring:
   application:
     name: auth-identity
-  profiles:
-    active: dev
   config:
     import:
       - optional:configserver:discovery://config-server
-      - optional:file:./env.properties
   datasource:
-    url: ${DB_URL}
-    driverClassName: ${DB_DRIVER_CLASS}
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
+    url: jdbc:postgresql://localhost:5433/streamixdb
+    driver-class-name: org.postgresql.Driver
+    username: streamix
+    password: streamix
   jpa:
-    database-platform: ${DB_DIALECT}
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
+    properties:
+      hibernate:
+        default_schema: streamix_identity
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        "[spring.json.add.type.headers]": false
+    consumer:
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+      properties:
+        "[spring.deserializer.value.delegate.class]": org.springframework.kafka.support.serializer.JsonDeserializer
+        "[spring.json.trusted.packages]": "com.mariuszilinskas.streamix.*"
+        "[spring.json.value.default.type]": "com.mariuszilinskas.streamix.auth.identity.event.UserRegisteredEvent"
   rabbitmq:
-    host: ${RMQ_HOST}
-    port: ${RMQ_PORT}
-    username: ${RMQ_USERNAME}
-    password: ${RMQ_PASSWORD}
+    host: localhost
+    port: 5672
+    username: streamix
+    password: streamix
 
-# Eureka configuration
+# Service discovery configuration
 eureka:
   client:
-    fetchRegistry: true
-    registerWithEureka: true
-    serviceUrl:
-      defaultZone: ${EUREKA_CLIENT_DEFAULT_ZONE}
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      default-zone: http://localhost:8761/eureka
   instance:
-    preferIpAddress: true
+    prefer-ip-address: true
 
-# RabbitMQ settings
+# Messaging configuration
+kafka:
+  topics:
+    user-registered: streamix.user.registered
+  groups:
+    identity-registration: streamix-auth-identity-registration
+
 rabbitmq:
-  exchange: ${RMQ_EXCHANGE}
+  exchange: streamix
   queues:
-    create-credentials: ${RMQ_CREATE_CREDENTIALS_Q}
-    reset-passcode: ${RMQ_RESET_PASSCODE_Q}
-    delete-user-data: ${RMQ_DELETE_USER_DATA_Q}
+    reset-passcode: reset-passcode
+    delete-user-data: delete-user-data
   routing-keys:
-    platform-emails: ${RMQ_PLATFORM_EMAILS_RK}
-    verify-account: ${RMQ_VERIFY_ACCOUNT_RK}
-    create-credentials: ${RMQ_CREATE_CREDENTIALS_RK}
-    reset-passcode: ${RMQ_RESET_PASSCODE_RK}
-    delete-user-data: ${RMQ_DELETE_USER_DATA_RK}
+    verify-account: verify-account.routing-key
+    platform-emails: platform-emails.routing-key
+    reset-passcode: reset-passcode.routing-key
+    delete-user-data: delete-user-data.routing-key
 
-# Management properties
+# Security configuration
+cryptography: {}
+
+# Actuator and observability configuration
 management:
   info:
     env:
@@ -66,16 +84,28 @@ management:
   endpoints:
     web:
       exposure:
-        include: info, health, refresh
+        include: info, health, prometheus
+  endpoint:
+    health:
+      show-details: when-authorized
+  opentelemetry:
+    resource-attributes:
+      service.name: ${spring.application.name}
+      service.namespace: streamix
+      deployment.environment: ${spring.profiles.active}
+    tracing:
+      export:
+        otlp:
+          endpoint: http://localhost:4318/v1/traces
+  otlp:
+    metrics:
+      export:
+        url: http://localhost:4318/v1/metrics
 
-app:
-  accessTokenSecret: ${ACCESS_TOKEN_SECRET}
-  refreshTokenSecret: ${REFRESH_TOKEN_SECRET}
-
-# Logging properties
+# Application logging configuration
 logging:
   level:
     root: INFO
-    org.springframework.web: DEBUG
-    org.springframework.security: DEBUG
-    com.mariuszilinskas.streamix: DEBUG
+    org.springframework.web: INFO
+    org.springframework.security: INFO
+    com.mariuszilinskas.streamix: INFO

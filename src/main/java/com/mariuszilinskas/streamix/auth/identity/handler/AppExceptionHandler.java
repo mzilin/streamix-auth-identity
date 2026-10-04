@@ -1,9 +1,10 @@
 package com.mariuszilinskas.streamix.auth.identity.handler;
 
 
-import com.mariuszilinskas.streamix.auth.identity.dto.ErrorResponse;
-import com.mariuszilinskas.streamix.auth.identity.dto.FieldErrorResponse;
+import com.mariuszilinskas.streamix.web.response.error.ErrorResponse;
+import com.mariuszilinskas.streamix.web.response.error.FieldErrorResponse;
 import com.mariuszilinskas.streamix.auth.identity.exception.*;
+import com.mariuszilinskas.streamix.cryptography.exception.CryptographyException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -53,6 +54,11 @@ public class AppExceptionHandler {
     }
 
     // --------------------- Specific -----------------------------
+
+    @ExceptionHandler(CryptographyException.class)
+    public ResponseEntity<ErrorResponse> handleCryptographyException(CryptographyException ex) {
+        return buildErrorResponse(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
     @ExceptionHandler(CredentialsValidationException.class)
     public ResponseEntity<ErrorResponse> handleCredentialsValidationException(CredentialsValidationException ex) {

@@ -7,6 +7,9 @@ spring:
   config:
     import:
       - optional:file:../env/dev.properties
+  jpa:
+    hibernate:
+      ddl-auto: update
 
 # Local security configuration
 cryptography:

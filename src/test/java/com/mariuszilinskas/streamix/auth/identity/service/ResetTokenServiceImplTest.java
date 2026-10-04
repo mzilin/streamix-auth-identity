@@ -35,7 +35,7 @@ public class ResetTokenServiceImplTest {
 
     private final UUID userId = UUID.randomUUID();
     private final ResetToken resetToken = new ResetToken(userId);
-    private final String token = RandomStringUtils.randomAlphanumeric(20);
+    private final String token = RandomStringUtils.secure().nextAlphanumeric(20);
 
     // ------------------------------------
 

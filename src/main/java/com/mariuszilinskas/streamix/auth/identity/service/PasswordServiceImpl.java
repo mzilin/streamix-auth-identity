@@ -38,6 +38,14 @@ public class PasswordServiceImpl implements PasswordService {
 
     @Override
     @Transactional
+    public void createNewPassword(CredentialsRequest request) {
+        logger.info("Creating Password for User [userId: '{}']", request.userId());
+        Password password = getOrCreateHashedPassword(request.userId());
+        setHashedPassword(password, request.password());
+    }
+
+    @Override
+    @Transactional
     public void setupPassword(SetupCredentialsRequest request) {
         logger.info("Setting up password for User [userId: '{}']", request.userId());
         Password password = getOrCreateHashedPassword(request.userId());
